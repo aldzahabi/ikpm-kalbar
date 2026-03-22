@@ -185,8 +185,8 @@
 <script>
     // Chart Sebaran Santri per Daerah (Bar Chart)
     const ctxSebaran = document.getElementById('chartSebaranDaerah').getContext('2d');
-    const sebaranLabels = {!! json_encode($sebaranDaerah->pluck('daerah')) !!};
-    const sebaranData = {!! json_encode($sebaranDaerah->pluck('jumlah')) !!};
+    const sebaranLabels = @json(array_column($sebaranDaerah, 'daerah'));
+    const sebaranData = @json(array_column($sebaranDaerah, 'jumlah'));
     
     const chartSebaranDaerah = new Chart(ctxSebaran, {
         type: 'bar',
@@ -254,9 +254,9 @@
 
     // Chart Arus Kas Bulanan (Line Chart)
     const ctxKas = document.getElementById('chartArusKas').getContext('2d');
-    const arusKasLabels = {!! json_encode($arusKasComplete->pluck('day')) !!};
-    const arusKasIncome = {!! json_encode($arusKasComplete->pluck('income')) !!};
-    const arusKasExpense = {!! json_encode($arusKasComplete->pluck('expense')) !!};
+    const arusKasLabels = @json(array_column($arusKasComplete, 'day'));
+    const arusKasIncome = @json(array_column($arusKasComplete, 'income'));
+    const arusKasExpense = @json(array_column($arusKasComplete, 'expense'));
     
     // Format labels untuk hanya menampilkan setiap 5 hari atau hari penting
     const formattedLabels = arusKasLabels.map((day, index) => {

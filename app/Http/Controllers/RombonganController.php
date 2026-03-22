@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Rombongan;
 use App\Models\Santri;
+use App\Services\RombonganPembayaranService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -47,10 +48,12 @@ class RombonganController extends Controller
 
     public function show(Rombongan $rombongan)
     {
-        $rombongan->load('santris');
+        $rombongan->load(['santris' => function ($q) {
+            $q->orderByPivot('nomor_kursi');
+        }]);
         
         // Santri yang belum terdaftar di rombongan manapun atau rombongan ini
-        $santriAvailable = Santri::where('status', 'santri')
+        $santriAvailable = Santri::whereIn('status', Santri::activePondokStatuses())
             ->whereDoesntHave('rombongans', function ($query) use ($rombongan) {
                 $query->where('rombongans.id', '!=', $rombongan->id);
             })
@@ -173,45 +176,12 @@ class RombonganController extends Controller
             'status_pembayaran' => 'required|in:lunas,belum_lunas',
         ]);
 
-        // Get old status before update
-        $pivot = DB::table('rombongan_santri')
-            ->where('rombongan_id', $rombongan->id)
-            ->where('santri_stambuk', $stambuk)
-            ->first();
-        
-        $oldStatus = $pivot ? $pivot->status_pembayaran : null;
-
-        // Update pivot
-        $rombongan->santris()->updateExistingPivot($stambuk, [
-            'status_pembayaran' => $request->status_pembayaran,
-        ]);
-
-        // Auto-create transaction if status changed to 'lunas'
-        if ($request->status_pembayaran === 'lunas' && $oldStatus !== 'lunas') {
-            // Get "Kas Perpulangan" account
-            $account = \App\Models\FinanceAccount::where('name', 'Kas Perpulangan')->first();
-            
-            if ($account) {
-                // Get "Tiket Santri" category (income)
-                $category = \App\Models\FinanceCategory::where('name', 'Tiket Santri')
-                    ->where('type', 'income')
-                    ->first();
-                
-                if ($category) {
-                    $santri = Santri::findOrFail($stambuk);
-                    
-                    \App\Models\FinanceTransaction::create([
-                        'finance_account_id' => $account->id,
-                        'finance_category_id' => $category->id,
-                        'amount' => $rombongan->biaya_per_orang,
-                        'transaction_date' => now()->toDateString(),
-                        'description' => "Pembayaran tiket perpulangan - {$rombongan->nama} - Santri: {$santri->nama} ({$santri->stambuk})",
-                        'reference_id' => "ROMBONGAN_{$rombongan->id}_SANTRI_{$stambuk}",
-                        'user_id' => auth()->id(),
-                    ]);
-                }
-            }
-        }
+        RombonganPembayaranService::updateStatus(
+            $rombongan,
+            $stambuk,
+            $request->status_pembayaran,
+            (int) auth()->id()
+        );
 
         return redirect()->back()
             ->with('success', 'Status pembayaran berhasil diperbarui.');
@@ -221,7 +191,7 @@ class RombonganController extends Controller
     {
         $search = $request->get('search', '');
         
-        $santriAvailable = Santri::where('status', 'santri')
+        $santriAvailable = Santri::whereIn('status', Santri::activePondokStatuses())
             ->whereDoesntHave('rombongans', function ($query) use ($rombongan) {
                 $query->where('rombongans.id', '!=', $rombongan->id);
             })
@@ -243,7 +213,9 @@ class RombonganController extends Controller
 
     public function printManifest($id)
     {
-        $rombongan = Rombongan::with('santris.user')->findOrFail($id);
+        $rombongan = Rombongan::with(['santris' => function ($q) {
+            $q->orderByPivot('nomor_kursi')->with('user');
+        }])->findOrFail($id);
         
         $pdf = Pdf::loadView('rombongan.manifest-pdf', compact('rombongan'))
             ->setPaper('a4', 'portrait');

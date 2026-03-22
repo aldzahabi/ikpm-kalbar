@@ -29,6 +29,10 @@ class SantriPromotionController extends Controller
                 continue;
             }
 
+            if ($santri->status === Santri::STATUS_USTAD) {
+                continue;
+            }
+
             $currentKelas = $santri->kelas;
             $newKelas = null;
             $newStatus = $santri->status;

@@ -111,7 +111,8 @@ brand-accent: #d97706  /* Aksen - Amber/Orange */
 - provinsi (string)
 - daerah (string) -- Kabupaten/Kota
 - alamat (text, nullable)
-- status ENUM('santri', 'alumni', 'alumnus')
+- status: `santri` | `ustad` | `alumni` (string; `alumnus` lama digabung ke `alumni`)
+- `ustad_mulai_tahun`: tahun mulai status ustad; `kelas` = tahun ke (otomatis per tahun kalender)
 - kelas (string, nullable) -- '1', '2', '3', '3Int', '4', '5', '6'
 - kenaikan_kelas ENUM('naik', 'tidak_naik', 'lulus', 'baru', null)
 - user_id (FK -> users, nullable) -- Siapa yang input

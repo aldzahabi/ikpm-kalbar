@@ -108,8 +108,18 @@ class DatabaseSeeder extends Seeder
                     continue;
                 }
                 
-                $status = $i <= 40 ? 'santri' : ($i <= 45 ? 'alumni' : 'alumnus');
-                $kelas = $status === 'santri' ? $faker->randomElement($kelasOptions) : null;
+                $ustadMulai = null;
+                if ($i <= 37) {
+                    $status = 'santri';
+                    $kelas = $faker->randomElement($kelasOptions);
+                } elseif ($i <= 42) {
+                    $status = 'ustad';
+                    $ustadMulai = (int) now()->format('Y') - (($i - 38) % 4); // variasi tahun ke 1–4
+                    $kelas = (string) max(1, (int) now()->format('Y') - $ustadMulai + 1);
+                } else {
+                    $status = 'alumni';
+                    $kelas = null;
+                }
                 
                 // Generate unique NIK
                 do {
@@ -129,7 +139,8 @@ class DatabaseSeeder extends Seeder
                     'alamat' => $faker->address(),
                     'status' => $status,
                     'kelas' => $kelas,
-                    'kenaikan_kelas' => $kelas ? ($faker->randomElement(['naik', 'tidak_naik', null])) : null,
+                    'ustad_mulai_tahun' => $ustadMulai,
+                    'kenaikan_kelas' => $kelas && $status === 'santri' ? ($faker->randomElement(['naik', 'tidak_naik', null])) : null,
                     'user_id' => $faker->randomElement($ustadUsers)->id,
                     'created_at' => now()->subDays(rand(1, 365)),
                     'updated_at' => now()->subDays(rand(1, 365)),
@@ -174,7 +185,7 @@ class DatabaseSeeder extends Seeder
         // 6. Seed Rombongan-Santri (Plot beberapa santri ke rombongan) - skip jika sudah ada
         $this->command->info('Seeding Rombongan-Santri...');
         
-        $santriAktif = Santri::where('status', 'santri')->limit(30)->get();
+        $santriAktif = Santri::whereIn('status', Santri::activePondokStatuses())->limit(30)->get();
         
         // Plot 20 santri ke rombongan 1 (skip jika sudah ter-attach)
         $rombongan1Santris = $rombongan1->santris()->pluck('stambuk')->toArray();

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('provinsi');
             $table->string('daerah'); // Kabupaten/Kota
             $table->text('alamat')->nullable();
-            $table->enum('status', ['santri', 'alumni', 'alumnus'])->default('santri');
+            $table->enum('status', ['santri', 'alumni', 'ustad'])->default('santri');
             $table->string('kelas')->nullable(); // contoh: '1', '2', '3Int', '6'
             $table->enum('kenaikan_kelas', ['naik', 'tidak_naik', 'lulus', 'baru'])->nullable();
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');

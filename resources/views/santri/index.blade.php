@@ -24,7 +24,28 @@
             <p class="text-xs sm:text-sm text-gray-600 mt-0.5 sm:mt-1">Total: {{ $santris->total() }} data</p>
         </div>
         @can('canManageSantri')
-        <div class="flex items-center space-x-2 sm:space-x-3 w-full sm:w-auto">
+        @php
+            $santriExportQuery = request()->only(['search', 'pondok_cabang', 'status', 'kelas']);
+        @endphp
+        <div class="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
+            <a
+                href="{{ route('santri.export.excel', $santriExportQuery) }}"
+                class="inline-flex items-center justify-center space-x-1.5 sm:space-x-2 px-3 sm:px-4 py-2 sm:py-2.5 bg-white border border-green-200 text-brand-primary rounded-lg hover:bg-green-50 transition-colors focus:outline-none focus:ring-2 focus:ring-green-200 focus:ring-offset-2 text-xs sm:text-sm"
+            >
+                <svg class="w-4 h-4 sm:w-5 sm:h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <span class="whitespace-nowrap">Excel</span>
+            </a>
+            <a
+                href="{{ route('santri.export.pdf', $santriExportQuery) }}"
+                class="inline-flex items-center justify-center space-x-1.5 sm:space-x-2 px-3 sm:px-4 py-2 sm:py-2.5 bg-white border border-red-200 text-red-700 rounded-lg hover:bg-red-50 transition-colors focus:outline-none focus:ring-2 focus:ring-red-100 focus:ring-offset-2 text-xs sm:text-sm"
+            >
+                <svg class="w-4 h-4 sm:w-5 sm:h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
+                <span class="whitespace-nowrap">PDF</span>
+            </a>
             @can('isAdmin')
             <button 
                 onclick="document.getElementById('importModal').classList.remove('hidden')"
@@ -158,6 +179,7 @@
             <div class="flex items-start justify-between mb-3">
                 <div class="flex items-start space-x-3">
                     @can('isAdmin')
+                    @if($santri->status === 'santri')
                     <input 
                         type="checkbox" 
                         name="santri_ids[]" 
@@ -165,6 +187,9 @@
                         class="santri-checkbox w-5 h-5 mt-0.5 text-brand-primary border-gray-300 rounded focus:ring-brand-primary"
                         onchange="updateFloatingBar()"
                     >
+                    @else
+                    <span class="w-5 h-5 inline-block shrink-0" title="Hanya santri reguler yang bisa naik kelas massal"></span>
+                    @endif
                     @endcan
                     <div>
                         <h3 class="text-sm font-semibold text-gray-800">{{ $santri->nama }}</h3>
@@ -175,19 +200,23 @@
                     <span class="px-2 py-0.5 text-xs font-medium rounded-full bg-green-100 text-green-800">
                         Santri
                     </span>
+                @elseif($santri->status == 'ustad')
+                    <span class="px-2 py-0.5 text-xs font-medium rounded-full bg-indigo-100 text-indigo-800">
+                        Ustad
+                    </span>
                 @elseif($santri->status == 'alumni')
                     <span class="px-2 py-0.5 text-xs font-medium rounded-full bg-blue-100 text-blue-800">
                         Alumni
                     </span>
                 @else
                     <span class="px-2 py-0.5 text-xs font-medium rounded-full bg-gray-100 text-gray-800">
-                        Alumnus
+                        {{ $santri->status }}
                     </span>
                 @endif
             </div>
             <div class="grid grid-cols-2 gap-2 text-xs mb-3">
                 <div>
-                    <span class="text-gray-500">Kelas:</span>
+                    <span class="text-gray-500">{{ $santri->status === 'ustad' ? 'Thn Ustad:' : 'Kelas:' }}</span>
                     <span class="text-gray-800 font-medium ml-1">{{ $santri->kelas ?? '-' }}</span>
                 </div>
                 <div>
@@ -283,6 +312,7 @@
                     <tr class="hover:bg-brand-bg transition-colors {{ $index % 2 == 0 ? 'bg-white' : 'bg-gray-50' }}">
                         @can('isAdmin')
                         <td class="px-4 lg:px-6 py-3 lg:py-4 whitespace-nowrap">
+                            @if($santri->status === 'santri')
                             <input 
                                 type="checkbox" 
                                 name="santri_ids[]" 
@@ -290,6 +320,9 @@
                                 class="santri-checkbox w-4 h-4 text-brand-primary border-gray-300 rounded focus:ring-brand-primary"
                                 onchange="updateFloatingBar()"
                             >
+                            @else
+                            <span class="text-gray-300 text-xs">—</span>
+                            @endif
                         </td>
                         @endcan
                         <td class="px-4 lg:px-6 py-3 lg:py-4 whitespace-nowrap text-xs lg:text-sm text-gray-700">
@@ -315,13 +348,17 @@
                                 <span class="px-2 lg:px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                                     Santri
                                 </span>
+                            @elseif($santri->status == 'ustad')
+                                <span class="px-2 lg:px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-indigo-100 text-indigo-800">
+                                    Ustad
+                                </span>
                             @elseif($santri->status == 'alumni')
                                 <span class="px-2 lg:px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
                                     Alumni
                                 </span>
                             @else
                                 <span class="px-2 lg:px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
-                                    Alumnus
+                                    {{ $santri->status }}
                                 </span>
                             @endif
                         </td>

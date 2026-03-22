@@ -189,6 +189,9 @@
                     </div>
                 </div>
                 
+                @php
+                    $statusOld = old('status', $santri->status === 'alumnus' ? 'alumni' : $santri->status);
+                @endphp
                 <!-- Baris 3: Status, Kelas, Pondok Cabang -->
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-4 sm:mb-6">
                     <!-- Status -->
@@ -203,9 +206,9 @@
                             class="w-full px-3 sm:px-4 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-200 focus:border-brand-primary transition-colors text-gray-800 bg-white text-sm"
                         >
                             <option value="">Pilih Status</option>
-                            <option value="santri" {{ old('status', $santri->status) == 'santri' ? 'selected' : '' }}>Santri</option>
-                            <option value="alumni" {{ old('status', $santri->status) == 'alumni' ? 'selected' : '' }}>Alumni</option>
-                            <option value="alumnus" {{ old('status', $santri->status) == 'alumnus' ? 'selected' : '' }}>Alumnus</option>
+                            <option value="ustad" {{ $statusOld == 'ustad' ? 'selected' : '' }}>Ustad</option>
+                            <option value="santri" {{ $statusOld == 'santri' ? 'selected' : '' }}>Santri</option>
+                            <option value="alumni" {{ $statusOld == 'alumni' ? 'selected' : '' }}>Alumni</option>
                         </select>
                         @error('status')
                             <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
@@ -225,6 +228,7 @@
                             class="w-full px-3 sm:px-4 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-200 focus:border-brand-primary transition-colors text-gray-800 placeholder-gray-400 text-sm"
                             placeholder="Contoh: 1, 2, 3Int"
                         >
+                        <p id="kelas-ustad-hint" class="mt-1 text-xs text-indigo-600 hidden">Untuk Ustad, angka ini = tahun ke (1, 2, 3…) dan diperbarui otomatis tiap tahun kalender.</p>
                         @error('kelas')
                             <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                         @enderror
@@ -249,6 +253,28 @@
                             <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
+                </div>
+
+                <div id="ustad-mulai-wrap" class="hidden mb-4 sm:mb-6 p-3 sm:p-4 bg-indigo-50 border border-indigo-100 rounded-lg">
+                    <label for="ustad_mulai_tahun" class="block text-xs sm:text-sm font-medium text-gray-800 mb-1 sm:mb-2">
+                        Tahun mulai menjadi Ustad <span class="text-red-500">*</span>
+                    </label>
+                    <input
+                        type="number"
+                        id="ustad_mulai_tahun"
+                        name="ustad_mulai_tahun"
+                        min="1990"
+                        max="2100"
+                        value="{{ old('ustad_mulai_tahun', $santri->ustad_mulai_tahun ?? date('Y')) }}"
+                        class="w-full max-w-xs px-3 sm:px-4 py-2 sm:py-2.5 border border-indigo-200 rounded-lg focus:ring-2 focus:ring-indigo-200 text-gray-800 text-sm"
+                    >
+                    <p class="mt-2 text-xs text-gray-600">
+                        Tahun ustad saat ini: <strong id="ustad-tahun-ke-preview">1</strong>
+                        (otomatis naik setiap pergantian tahun sampai status diubah ke Alumni).
+                    </p>
+                    @error('ustad_mulai_tahun')
+                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                    @enderror
                 </div>
                 
                 <!-- Baris 4: Alamat (Textarea Full Width) -->
@@ -390,6 +416,46 @@
     </div>
 
     <script>
+        (function () {
+            const statusEl = document.getElementById('status');
+            const kelasEl = document.getElementById('kelas');
+            const wrap = document.getElementById('ustad-mulai-wrap');
+            const mulaiEl = document.getElementById('ustad_mulai_tahun');
+            const preview = document.getElementById('ustad-tahun-ke-preview');
+            const hint = document.getElementById('kelas-ustad-hint');
+
+            function tahunKe() {
+                const y = new Date().getFullYear();
+                const mulai = parseInt(mulaiEl.value, 10);
+                if (!mulai || mulai < 1990) return 1;
+                return Math.max(1, y - mulai + 1);
+            }
+
+            function syncUstadUi() {
+                const isUstad = statusEl.value === 'ustad';
+                wrap.classList.toggle('hidden', !isUstad);
+                hint.classList.toggle('hidden', !isUstad);
+                if (mulaiEl) {
+                    mulaiEl.disabled = !isUstad;
+                    mulaiEl.required = isUstad;
+                }
+                if (isUstad) {
+                    kelasEl.readOnly = true;
+                    kelasEl.classList.add('bg-gray-50', 'cursor-not-allowed');
+                    const ke = tahunKe();
+                    if (preview) preview.textContent = String(ke);
+                    kelasEl.value = String(ke);
+                } else {
+                    kelasEl.readOnly = false;
+                    kelasEl.classList.remove('bg-gray-50', 'cursor-not-allowed');
+                }
+            }
+
+            statusEl.addEventListener('change', syncUstadUi);
+            if (mulaiEl) mulaiEl.addEventListener('input', syncUstadUi);
+            syncUstadUi();
+        })();
+
         function previewImage(input, previewId) {
             const preview = document.getElementById(previewId);
             const previewImg = preview.querySelector('img');

@@ -41,6 +41,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
 
     // Santri Routes - Semua user yang login bisa akses (Read Only untuk non-admin)
+    Route::get('santri/export/excel', [SantriController::class, 'exportExcel'])->name('santri.export.excel')->can('canManageSantri');
+    Route::get('santri/export/pdf', [SantriController::class, 'exportPdf'])->name('santri.export.pdf')->can('canManageSantri');
     Route::resource('santri', SantriController::class);
     Route::post('santri/import', [SantriController::class, 'import'])->name('santri.import')->can('isAdmin');
     Route::post('santri/promote', [SantriPromotionController::class, 'promote'])->name('santri.promote')->can('isAdmin');

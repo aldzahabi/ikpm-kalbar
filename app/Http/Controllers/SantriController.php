@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\SantrisExport;
 use App\Models\Santri;
 use App\Imports\SantriImport;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
@@ -18,35 +20,7 @@ class SantriController extends Controller
     public function index(Request $request)
     {
         $user = auth()->user();
-        $query = Santri::query();
-
-        // Filter by pondok cabang for Ustad
-        if ($user && $user->isUstad()) {
-            $assignedPondok = $user->pondokCabang();
-            if (!empty($assignedPondok)) {
-                $query->whereIn('pondok_cabang', $assignedPondok);
-            } else {
-                // Ustad without assigned pondok sees nothing
-                $query->whereRaw('1 = 0');
-            }
-        }
-
-        // Filter by pondok cabang (for all users)
-        if ($request->has('pondok_cabang') && $request->pondok_cabang != '') {
-            $query->where('pondok_cabang', $request->pondok_cabang);
-        }
-
-        // Search functionality
-        if ($request->has('search') && $request->search != '') {
-            $search = $request->search;
-            $query->where(function($q) use ($search) {
-                $q->where('nama', 'like', '%' . $search . '%')
-                  ->orWhere('stambuk', 'like', '%' . $search . '%');
-            });
-        }
-
-        // Order by created_at descending (newest first)
-        $query->orderBy('created_at', 'desc');
+        $query = Santri::query()->forWebList($request, $user)->orderByDesc('created_at');
 
         // Paginate results
         $santris = $query->paginate(10);
@@ -109,7 +83,8 @@ class SantriController extends Controller
             'provinsi' => 'required|string|max:255',
             'daerah' => 'required|string|max:255',
             'alamat' => 'nullable|string',
-            'status' => 'required|in:santri,alumni,alumnus',
+            'status' => 'required|in:santri,alumni,ustad',
+            'ustad_mulai_tahun' => 'nullable|integer|min:1990|max:2100|required_if:status,ustad',
             'kelas' => 'nullable|string|max:50',
             'pondok_cabang' => $pondokValidation,
             'foto_diri' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:2048',
@@ -210,7 +185,8 @@ class SantriController extends Controller
             'provinsi' => 'required|string|max:255',
             'daerah' => 'required|string|max:255',
             'alamat' => 'nullable|string',
-            'status' => 'required|in:santri,alumni,alumnus',
+            'status' => 'required|in:santri,alumni,ustad',
+            'ustad_mulai_tahun' => 'nullable|integer|min:1990|max:2100|required_if:status,ustad',
             'kelas' => 'nullable|string|max:50',
             'pondok_cabang' => $pondokValidation,
             'foto_diri' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:2048',
@@ -302,5 +278,38 @@ class SantriController extends Controller
             return redirect()->route('santri.index')
                 ->with('error', 'Error saat import: ' . $e->getMessage());
         }
+    }
+
+    /**
+     * Export Excel — filter sama dengan daftar (query string).
+     */
+    public function exportExcel(Request $request)
+    {
+        $this->authorize('canManageSantri');
+
+        $filename = 'santri-export-'.now()->format('Y-m-d-His').'.xlsx';
+
+        return Excel::download(new SantrisExport($request), $filename);
+    }
+
+    /**
+     * Export PDF ringkas — filter sama dengan daftar.
+     */
+    public function exportPdf(Request $request)
+    {
+        $this->authorize('canManageSantri');
+
+        $user = auth()->user();
+        $santris = Santri::query()
+            ->forWebList($request, $user)
+            ->orderBy('stambuk')
+            ->get();
+
+        $pdf = Pdf::loadView('santri.export-pdf', [
+            'santris' => $santris,
+            'printedAt' => now(),
+        ])->setPaper('a4', 'landscape');
+
+        return $pdf->download('santri-export-'.now()->format('Y-m-d').'.pdf');
     }
 }

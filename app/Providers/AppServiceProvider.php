@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\FinanceTransaction;
+use App\Models\Santri;
 use App\Observers\FinanceTransactionObserver;
+use App\Observers\SantriObserver;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
@@ -27,5 +29,6 @@ class AppServiceProvider extends ServiceProvider
         }
 
         FinanceTransaction::observe(FinanceTransactionObserver::class);
+        Santri::observe(SantriObserver::class);
     }
 }
