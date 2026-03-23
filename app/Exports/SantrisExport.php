@@ -30,13 +30,16 @@ class SantrisExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoS
      */
     public function headings(): array
     {
+        // Jika filter status = ustad, ganti header "Kelas" menjadi "Tahun"
+        $kelasHeader = $this->request->get('status') === 'ustad' ? 'Tahun' : 'Kelas';
+
         return [
             'Stambuk',
             'Nama',
             'NIK',
             'Provinsi',
             'Daerah',
-            'Kelas',
+            $kelasHeader,
             'Pondok cabang',
             'Status',
             'No HP (user)',
@@ -53,13 +56,19 @@ class SantrisExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoS
             ? (Santri::getPondokCabangList()[$row->pondok_cabang] ?? $row->pondok_cabang)
             : '';
 
+        // Untuk ustad, tampilkan "Tahun Ke-X" bukan angka mentah
+        $kelasValue = $row->kelas ?? '';
+        if ($row->status === 'ustad' && $row->kelas) {
+            $kelasValue = 'Tahun Ke-' . $row->kelas;
+        }
+
         return [
             $row->stambuk,
             $row->nama,
             $row->nik ?? '',
             $row->provinsi,
             $row->daerah,
-            $row->kelas ?? '',
+            $kelasValue,
             $pondok,
             $row->status,
             $row->user?->no_hp ?? $row->user?->email ?? '',

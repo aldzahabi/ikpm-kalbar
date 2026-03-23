@@ -14,7 +14,11 @@
     </style>
 </head>
 <body>
-    <h1>Daftar Santri</h1>
+    @php
+        $statusFilter = request('status');
+        $isUstadFilter = $statusFilter === 'ustad';
+    @endphp
+    <h1>Daftar {{ $isUstadFilter ? 'Ustad' : ($statusFilter === 'alumni' ? 'Alumni' : 'Santri') }}</h1>
     <div class="meta">Dicetak: {{ $printedAt->format('d/m/Y H:i') }} — Total: {{ $santris->count() }} baris</div>
     <table>
         <thead>
@@ -24,7 +28,7 @@
                 <th>NIK</th>
                 <th>Provinsi</th>
                 <th>Daerah</th>
-                <th>Kelas</th>
+                <th>{{ $isUstadFilter ? 'Tahun' : 'Kelas' }}</th>
                 <th>Pondok</th>
                 <th>Status</th>
             </tr>
@@ -37,7 +41,13 @@
                 <td>{{ $s->nik ?? '—' }}</td>
                 <td>{{ $s->provinsi }}</td>
                 <td>{{ $s->daerah }}</td>
-                <td>{{ $s->kelas ?? '—' }}</td>
+                <td>
+                    @if($s->status === 'ustad' && $s->kelas)
+                        Tahun Ke-{{ $s->kelas }}
+                    @else
+                        {{ $s->kelas ?? '—' }}
+                    @endif
+                </td>
                 <td>
                     @php
                         $p = $s->pondok_cabang ? (\App\Models\Santri::getPondokCabangList()[$s->pondok_cabang] ?? $s->pondok_cabang) : '—';
