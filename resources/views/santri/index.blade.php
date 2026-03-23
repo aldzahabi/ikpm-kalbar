@@ -307,8 +307,14 @@
             </div>
             <div class="grid grid-cols-2 gap-2 text-xs mb-3">
                 <div>
-                    <span class="text-gray-500">{{ $santri->status === 'ustad' ? 'Thn Ustad:' : 'Kelas:' }}</span>
-                    <span class="text-gray-800 font-medium ml-1">{{ $santri->kelas ?? '-' }}</span>
+                    <span class="text-gray-500">{{ $santri->status === 'ustad' ? 'Tahun:' : 'Kelas:' }}</span>
+                    <span class="text-gray-800 font-medium ml-1">
+                        @if($santri->status === 'ustad' && $santri->kelas)
+                            Tahun Ke-{{ $santri->kelas }}
+                        @else
+                            {{ $santri->kelas ?? '-' }}
+                        @endif
+                    </span>
                 </div>
                 <div>
                     <span class="text-gray-500">Daerah:</span>
@@ -392,7 +398,9 @@
                         <th class="px-4 lg:px-6 py-3 text-left text-xs font-semibold text-brand-primary uppercase tracking-wider">No</th>
                         <th class="px-4 lg:px-6 py-3 text-left text-xs font-semibold text-brand-primary uppercase tracking-wider">Stambuk</th>
                         <th class="px-4 lg:px-6 py-3 text-left text-xs font-semibold text-brand-primary uppercase tracking-wider">Nama</th>
-                        <th class="px-4 lg:px-6 py-3 text-left text-xs font-semibold text-brand-primary uppercase tracking-wider hidden lg:table-cell">Kelas</th>
+                        <th class="px-4 lg:px-6 py-3 text-left text-xs font-semibold text-brand-primary uppercase tracking-wider hidden lg:table-cell">
+                            {{ request('status') === 'ustad' ? 'Tahun' : 'Kelas' }}
+                        </th>
                         <th class="px-4 lg:px-6 py-3 text-left text-xs font-semibold text-brand-primary uppercase tracking-wider">Daerah</th>
                         <th class="px-4 lg:px-6 py-3 text-left text-xs font-semibold text-brand-primary uppercase tracking-wider">Status</th>
                         <th class="px-4 lg:px-6 py-3 text-right text-xs font-semibold text-brand-primary uppercase tracking-wider">Aksi</th>
@@ -429,7 +437,11 @@
                             @endif
                         </td>
                         <td class="px-4 lg:px-6 py-3 lg:py-4 whitespace-nowrap text-xs lg:text-sm text-gray-700 hidden lg:table-cell">
-                            {{ $santri->kelas ?? '-' }}
+                            @if($santri->status === 'ustad' && $santri->kelas)
+                                Tahun Ke-{{ $santri->kelas }}
+                            @else
+                                {{ $santri->kelas ?? '-' }}
+                            @endif
                         </td>
                         <td class="px-4 lg:px-6 py-3 lg:py-4 whitespace-nowrap text-xs lg:text-sm text-gray-700">
                             <div class="truncate max-w-[100px]">{{ $santri->daerah }}</div>
