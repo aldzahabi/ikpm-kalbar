@@ -28,93 +28,24 @@
             $santriExportQuery = request()->only(['search', 'pondok_cabang', 'status', 'kelas']);
         @endphp
         <div class="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
-            <!-- Export Dropdown -->
-            <div class="relative" x-data="{ open: false }">
-                <button
-                    @click="open = !open"
-                    @click.outside="open = false"
-                    type="button"
-                    class="inline-flex items-center justify-center space-x-1.5 sm:space-x-2 px-3 sm:px-4 py-2 sm:py-2.5 bg-white border border-green-200 text-brand-primary rounded-lg hover:bg-green-50 transition-colors focus:outline-none focus:ring-2 focus:ring-green-200 focus:ring-offset-2 text-xs sm:text-sm"
-                >
-                    <svg class="w-4 h-4 sm:w-5 sm:h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    <span class="whitespace-nowrap">Export</span>
-                    <svg class="w-4 h-4 shrink-0 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                </button>
-
-                <!-- Dropdown Menu -->
-                <div
-                    x-show="open"
-                    x-cloak
-                    x-transition:enter="transition ease-out duration-100"
-                    x-transition:enter-start="transform opacity-0 scale-95"
-                    x-transition:enter-end="transform opacity-100 scale-100"
-                    x-transition:leave="transition ease-in duration-75"
-                    x-transition:leave-start="transform opacity-100 scale-100"
-                    x-transition:leave-end="transform opacity-0 scale-95"
-                    class="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
-                >
-                    <div class="px-3 py-2 border-b border-gray-100">
-                        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Export Excel</p>
-                    </div>
-                    <a href="{{ route('santri.export.excel', array_merge($santriExportQuery, ['status' => 'santri'])) }}"
-                       class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-brand-primary transition-colors">
-                        <span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
-                        Data Santri
-                    </a>
-                    <a href="{{ route('santri.export.excel', array_merge($santriExportQuery, ['status' => 'ustad'])) }}"
-                       class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-brand-primary transition-colors">
-                        <span class="w-2 h-2 bg-indigo-500 rounded-full mr-3"></span>
-                        Data Ustad
-                    </a>
-                    <a href="{{ route('santri.export.excel', array_merge($santriExportQuery, ['status' => 'alumni'])) }}"
-                       class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-brand-primary transition-colors">
-                        <span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
-                        Data Alumni
-                    </a>
-
-                    <div class="px-3 py-2 border-t border-b border-gray-100 mt-1">
-                        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Export PDF</p>
-                    </div>
-                    <a href="{{ route('santri.export.pdf', array_merge($santriExportQuery, ['status' => 'santri'])) }}"
-                       class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">
-                        <span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
-                        Data Santri
-                    </a>
-                    <a href="{{ route('santri.export.pdf', array_merge($santriExportQuery, ['status' => 'ustad'])) }}"
-                       class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">
-                        <span class="w-2 h-2 bg-indigo-500 rounded-full mr-3"></span>
-                        Data Ustad
-                    </a>
-                    <a href="{{ route('santri.export.pdf', array_merge($santriExportQuery, ['status' => 'alumni'])) }}"
-                       class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">
-                        <span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
-                        Data Alumni
-                    </a>
-
-                    @if(!request('status'))
-                    <div class="border-t border-gray-100 mt-1 pt-1">
-                        <a href="{{ route('santri.export.excel', $santriExportQuery) }}"
-                           class="flex items-center px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 transition-colors">
-                            <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                            </svg>
-                            Semua Data (Excel)
-                        </a>
-                        <a href="{{ route('santri.export.pdf', $santriExportQuery) }}"
-                           class="flex items-center px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 transition-colors">
-                            <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                            </svg>
-                            Semua Data (PDF)
-                        </a>
-                    </div>
-                    @endif
-                </div>
-            </div>
+            <a
+                href="{{ route('santri.export.excel', $santriExportQuery) }}"
+                class="inline-flex items-center justify-center space-x-1.5 sm:space-x-2 px-3 sm:px-4 py-2 sm:py-2.5 bg-white border border-green-200 text-brand-primary rounded-lg hover:bg-green-50 transition-colors focus:outline-none focus:ring-2 focus:ring-green-200 focus:ring-offset-2 text-xs sm:text-sm"
+            >
+                <svg class="w-4 h-4 sm:w-5 sm:h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <span class="whitespace-nowrap">Excel</span>
+            </a>
+            <a
+                href="{{ route('santri.export.pdf', $santriExportQuery) }}"
+                class="inline-flex items-center justify-center space-x-1.5 sm:space-x-2 px-3 sm:px-4 py-2 sm:py-2.5 bg-white border border-red-200 text-red-700 rounded-lg hover:bg-red-50 transition-colors focus:outline-none focus:ring-2 focus:ring-red-100 focus:ring-offset-2 text-xs sm:text-sm"
+            >
+                <svg class="w-4 h-4 sm:w-5 sm:h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
+                <span class="whitespace-nowrap">PDF</span>
+            </a>
             @can('isAdmin')
             <button 
                 onclick="document.getElementById('importModal').classList.remove('hidden')"
