@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Edit User - IKPM Gontor Pontianak')
+@section('title', 'Edit User - IKPM Kalbar')
 @section('page-title', 'Edit User')
 @section('page-subtitle', 'Perbarui data user')
 

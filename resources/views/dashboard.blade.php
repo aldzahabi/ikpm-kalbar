@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard - IKPM Gontor Pontianak')
+@section('title', 'Dashboard - IKPM Kalbar')
 @section('page-title', 'Dashboard')
 @section('page-subtitle', 'Pusat Monitoring Real-time')
 

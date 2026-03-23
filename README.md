@@ -239,8 +239,8 @@ Filter pada halaman index santri menggunakan Alpine.js untuk switching dinamis a
 
 ## 📄 Lisensi
 
-Aplikasi ini dikembangkan untuk IKPM Gontor. Hak cipta dilindungi.
+Aplikasi ini dikembangkan untuk IKPM Kalbar. Hak cipta dilindungi.
 
 ---
 
-Dikembangkan dengan ❤️ untuk IKPM Gontor
+Dikembangkan dengan ❤️ untuk IKPM Kalbar

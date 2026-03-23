@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Login - IKPM Gontor Pontianak</title>
+    <title>Login - IKPM Kalbar</title>
     
     <!-- Vite Assets -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -20,8 +20,8 @@
                         <span class="text-white font-bold text-2xl">IK</span>
                     </div>
                 </div>
-                <h1 class="text-2xl font-bold text-brand-primary">IKPM Gontor</h1>
-                <p class="text-gray-500 text-sm mt-1">Pontianak</p>
+                <h1 class="text-2xl font-bold text-brand-primary">IKPM Kalbar</h1>
+                <p class="text-gray-500 text-sm mt-1">Kalimantan Barat</p>
                 <p class="text-gray-600 text-sm mt-4">Silakan masuk ke akun Anda</p>
             </div>
             
@@ -114,7 +114,7 @@
             <!-- Footer -->
             <div class="mt-6 text-center">
                 <p class="text-xs text-gray-500">
-                    © {{ date('Y') }} IKPM Gontor Pontianak. All rights reserved.
+                    © {{ date('Y') }} IKPM Kalbar. All rights reserved.
                 </p>
             </div>
         </div>

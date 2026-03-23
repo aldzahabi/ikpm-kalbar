@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Detail Rombongan - IKPM Gontor Pontianak')
+@section('title', 'Detail Rombongan - IKPM Kalbar')
 @section('page-title', 'Detail Rombongan')
 @section('page-subtitle', $rombongan->nama)
 

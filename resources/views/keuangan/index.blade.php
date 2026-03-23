@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Keuangan - IKPM Gontor Pontianak')
+@section('title', 'Keuangan - IKPM Kalbar')
 @section('page-title', 'Keuangan')
 @section('page-subtitle', 'Manajemen keuangan multi-account')
 

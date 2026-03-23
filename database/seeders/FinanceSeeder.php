@@ -13,7 +13,7 @@ class FinanceSeeder extends Seeder
         $accounts = [
             [
                 'name' => 'Kas Operasional IKPM',
-                'description' => 'Kas utama untuk operasional harian IKPM Gontor Pontianak',
+                'description' => 'Kas utama untuk operasional harian IKPM Kalbar',
                 'current_balance' => 0,
                 'created_at' => now(),
                 'updated_at' => now(),

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Tambah Konten - IKPM Gontor Pontianak')
+@section('title', 'Tambah Konten - IKPM Kalbar')
 @section('page-title')
 Tambah {{ ($type ?? 'slider') == 'slider' ? 'Slider Hero' : 'Berita' }}
 @endsection

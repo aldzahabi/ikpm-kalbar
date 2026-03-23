@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'CMS Landing Page - IKPM Gontor Pontianak')
+@section('title', 'CMS Landing Page - IKPM Kalbar')
 @section('page-title', 'CMS Landing Page')
 @section('page-subtitle', 'Kelola konten halaman depan')
 
@@ -362,7 +362,7 @@
                             <input type="email" name="footer_email" id="footer_email" 
                                    value="{{ $contactSettings['footer_email'] ?? '' }}"
                                    class="w-full px-3 sm:px-4 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-primary focus:border-brand-primary transition-colors text-sm"
-                                   placeholder="info@ikpmpontianak.com">
+                                   placeholder="info@ikpmkalbar.com">
                         </div>
 
                         <!-- Instagram -->
@@ -373,7 +373,7 @@
                                 <input type="text" name="footer_instagram" id="footer_instagram" 
                                        value="{{ $contactSettings['footer_instagram'] ?? '' }}"
                                        class="w-full pl-8 pr-3 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-primary focus:border-brand-primary transition-colors text-sm"
-                                       placeholder="ikpmpontianak">
+                                       placeholder="ikpmkalbar">
                             </div>
                         </div>
 
@@ -383,7 +383,7 @@
                             <input type="text" name="footer_facebook" id="footer_facebook" 
                                    value="{{ $contactSettings['footer_facebook'] ?? '' }}"
                                    class="w-full px-3 sm:px-4 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-primary focus:border-brand-primary transition-colors text-sm"
-                                   placeholder="IKPM Gontor Pontianak">
+                                   placeholder="IKPM Kalbar">
                         </div>
 
                         <!-- YouTube -->
@@ -392,7 +392,7 @@
                             <input type="text" name="footer_youtube" id="footer_youtube" 
                                    value="{{ $contactSettings['footer_youtube'] ?? '' }}"
                                    class="w-full px-3 sm:px-4 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-primary focus:border-brand-primary transition-colors text-sm"
-                                   placeholder="@ikpmpontianak">
+                                   placeholder="@ikpmkalbar">
                         </div>
 
                         <!-- Maps Embed URL -->

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Konten Landing Page - IKPM Gontor Pontianak')
+@section('title', 'Edit Konten Landing Page - IKPM Kalbar')
 @section('page-title', 'Edit Konten Landing Page')
 @section('page-subtitle', 'Perbarui konten landing page')
 

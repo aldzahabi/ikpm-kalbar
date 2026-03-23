@@ -1,13 +1,13 @@
 # Prompt Lanjutan untuk AI Coding Assistant
 
-Gunakan prompt ini ketika melanjutkan pengembangan project IKPM Gontor Pontianak di AI coding assistant lain (Claude, Cursor, Copilot, dll).
+Gunakan prompt ini ketika melanjutkan pengembangan project IKPM Kalbar di AI coding assistant lain (Claude, Cursor, Copilot, dll).
 
 ---
 
 ## Context Prompt
 
 ```
-Saya ingin melanjutkan pengembangan aplikasi IKPM Gontor Pontianak. Ini adalah SaaS Management System untuk manajemen data Santri, Alumni, dan Logistik Perpulangan.
+Saya ingin melanjutkan pengembangan aplikasi IKPM Kalbar. Ini adalah SaaS Management System untuk manajemen data Santri, Alumni, dan Logistik Perpulangan.
 
 ## Tech Stack
 - Laravel 12 (PHP 8.2+)
@@ -74,7 +74,7 @@ Silakan baca file DOKUMENTASI.md untuk informasi lengkap tentang database schema
 ### Menambah Fitur Baru
 
 ```
-Tolong buatkan fitur [NAMA FITUR] untuk project IKPM Gontor Pontianak.
+Tolong buatkan fitur [NAMA FITUR] untuk project IKPM Kalbar.
 
 Spesifikasi:
 - [Deskripsi fitur]
@@ -92,7 +92,7 @@ Pastikan:
 ### Memperbaiki Bug
 
 ```
-Ada bug di project IKPM Gontor Pontianak:
+Ada bug di project IKPM Kalbar:
 
 [Deskripsi bug]
 
@@ -112,7 +112,7 @@ Tolong perbaiki bug ini.
 ### Refactoring
 
 ```
-Tolong refactor [bagian yang ingin di-refactor] di project IKPM Gontor Pontianak.
+Tolong refactor [bagian yang ingin di-refactor] di project IKPM Kalbar.
 
 Alasan refactor:
 - [alasan 1]

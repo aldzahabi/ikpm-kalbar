@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Pengaturan Profil - IKPM Gontor Pontianak')
+@section('title', 'Pengaturan Profil - IKPM Kalbar')
 @section('page-title', 'Pengaturan Profil')
 @section('page-subtitle', 'Kelola informasi profil Anda')
 

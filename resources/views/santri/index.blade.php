@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Data Santri & Alumni - IKPM Gontor Pontianak')
+@section('title', 'Data Santri & Alumni - IKPM Kalbar')
 @section('page-title', 'Data Santri & Alumni')
 @section('page-subtitle', 'Kelola data santri dan alumni')
 

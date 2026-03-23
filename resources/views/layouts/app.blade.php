@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'IKPM Gontor - Pontianak')</title>
+    <title>@yield('title', 'IKPM Kalbar')</title>
     
     <!-- Google Fonts - Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,8 +44,8 @@
                         <span class="text-white font-bold text-base sm:text-lg">IK</span>
                     </div>
                     <div>
-                        <h1 class="text-brand-primary font-bold text-base sm:text-lg leading-tight">IKPM Gontor</h1>
-                        <p class="text-gray-500 text-xs">Pontianak</p>
+                        <h1 class="text-brand-primary font-bold text-base sm:text-lg leading-tight">IKPM Kalbar</h1>
+                        <p class="text-gray-500 text-xs">Kalimantan Barat</p>
                     </div>
                 </a>
                 <!-- Close Button (Mobile) -->
@@ -66,7 +66,7 @@
             
             <!-- Footer Sidebar -->
             <div class="p-3 sm:p-4 border-t border-gray-100">
-                <p class="text-xs text-gray-500 text-center">© {{ date('Y') }} IKPM Gontor</p>
+                <p class="text-xs text-gray-500 text-center">© {{ date('Y') }} IKPM Kalbar</p>
             </div>
         </aside>
         

@@ -16,7 +16,7 @@ class SettingsController extends Controller
         
         // Get organization settings
         $orgSettings = [
-            'org_name' => Setting::get('org_name', 'IKPM Gontor Pontianak'),
+            'org_name' => Setting::get('org_name', 'IKPM Kalbar'),
             'org_address' => Setting::get('org_address', ''),
             'org_phone' => Setting::get('org_phone', ''),
             'org_email' => Setting::get('org_email', ''),

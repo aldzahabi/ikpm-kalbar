@@ -201,9 +201,9 @@
                 <span class="logo-text">IK</span>
             </div>
             <div class="header-title">
-                <h1>IKPM GONTOR</h1>
+                <h1>IKPM KALBAR</h1>
                 <h2>Ikatan Keluarga Pondok Modern</h2>
-                <p>Cabang Pontianak</p>
+                <p>Kalimantan Barat</p>
             </div>
         </div>
     </div>
@@ -316,7 +316,7 @@
 
     <!-- Footer -->
     <div class="footer">
-        <p>Dokumen ini dibuat secara otomatis oleh Sistem Manajemen IKPM Gontor Pontianak</p>
+        <p>Dokumen ini dibuat secara otomatis oleh Sistem Manajemen IKPM Kalbar</p>
         <p>Dicetak pada: {{ date('d F Y, H:i:s') }} WIB</p>
     </div>
 </body>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Berita & Informasi - IKPM Gontor Pontianak</title>
+    <title>Berita & Informasi - IKPM Kalbar</title>
     
     <!-- Vite Assets -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -20,7 +20,7 @@
                         <span class="text-white font-bold text-lg sm:text-xl">IK</span>
                     </div>
                     <div class="hidden xs:block">
-                        <h1 class="text-emerald-600 font-bold text-lg sm:text-xl leading-tight">IKPM Gontor</h1>
+                        <h1 class="text-emerald-600 font-bold text-lg sm:text-xl leading-tight">IKPM Kalbar</h1>
                         <p class="text-gray-500 text-xs">Pontianak</p>
                     </div>
                 </a>
@@ -83,7 +83,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center">
                 <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-800 mb-3 sm:mb-4">Berita & Informasi</h1>
-                <p class="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto px-4">Informasi terbaru dan berita seputar kegiatan IKPM Gontor Pontianak</p>
+                <p class="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto px-4">Informasi terbaru dan berita seputar kegiatan IKPM Kalbar</p>
             </div>
         </div>
     </section>
@@ -167,9 +167,9 @@
 
     <!-- Footer -->
     @php
-        $footerAddress = \App\Models\Setting::get('footer_address', "Sekretariat IKPM Gontor Cabang Pontianak\nJl. Contoh No. 123\nPontianak, Kalimantan Barat");
+        $footerAddress = \App\Models\Setting::get('footer_address', "Sekretariat IKPM Kalbar\nJl. Contoh No. 123\nPontianak, Kalimantan Barat");
         $footerWhatsapp = \App\Models\Setting::get('footer_whatsapp', '812-3456-7890');
-        $footerEmail = \App\Models\Setting::get('footer_email', 'info@ikpmpontianak.com');
+        $footerEmail = \App\Models\Setting::get('footer_email', 'info@ikpmkalbar.com');
     @endphp
     <footer class="bg-[#064e3b] text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
@@ -180,7 +180,7 @@
                             <span class="text-emerald-600 font-bold">IK</span>
                         </div>
                         <div>
-                            <h3 class="text-white font-bold">IKPM Gontor</h3>
+                            <h3 class="text-white font-bold">IKPM Kalbar</h3>
                             <p class="text-emerald-200 text-xs">Pontianak</p>
                         </div>
                     </div>
@@ -217,7 +217,7 @@
                 </div>
             </div>
             <div class="border-t border-emerald-800 mt-8 pt-6 sm:pt-8 text-center text-gray-400 text-xs sm:text-sm">
-                &copy; {{ date('Y') }} IKPM Gontor Pontianak. All rights reserved.
+                &copy; {{ date('Y') }} IKPM Kalbar. All rights reserved.
             </div>
         </div>
     </footer>

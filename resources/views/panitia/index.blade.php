@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Data Panitia - IKPM Gontor Pontianak')
+@section('title', 'Data Panitia - IKPM Kalbar')
 @section('page-title', 'Data Panitia')
 @section('page-subtitle', 'Santri Kelas 4 - Calon Panitia')
 

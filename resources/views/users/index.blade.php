@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Manajemen User - IKPM Gontor Pontianak')
+@section('title', 'Manajemen User - IKPM Kalbar')
 @section('page-title', 'Manajemen User')
 @section('page-subtitle', 'Kelola data user dan role')
 

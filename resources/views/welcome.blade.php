@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>IKPM Gontor Pontianak - Ikatan Keluarga Pondok Modern</title>
+    <title>IKPM Kalbar - Ikatan Keluarga Pondok Modern</title>
     
     <!-- Vite Assets -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -26,9 +26,9 @@
             ->get();
         
         // Ambil data kontak dari settings
-        $footerAddress = \App\Models\Setting::get('footer_address', "Sekretariat IKPM Gontor Cabang Pontianak\nJl. Contoh No. 123\nPontianak, Kalimantan Barat\nIndonesia");
+        $footerAddress = \App\Models\Setting::get('footer_address', "Sekretariat IKPM Kalbar\nJl. Contoh No. 123\nPontianak, Kalimantan Barat\nIndonesia");
         $footerWhatsapp = \App\Models\Setting::get('footer_whatsapp', '812-3456-7890');
-        $footerEmail = \App\Models\Setting::get('footer_email', 'info@ikpmpontianak.com');
+        $footerEmail = \App\Models\Setting::get('footer_email', 'info@ikpmkalbar.com');
         $footerInstagram = \App\Models\Setting::get('footer_instagram', '');
         $footerFacebook = \App\Models\Setting::get('footer_facebook', '');
     @endphp
@@ -46,8 +46,8 @@
                         <span class="text-white font-bold text-lg sm:text-xl">IK</span>
                     </div>
                     <div class="hidden xs:block">
-                        <h1 class="text-emerald-600 font-bold text-lg sm:text-xl leading-tight">IKPM Gontor</h1>
-                        <p class="text-gray-500 text-xs">Pontianak</p>
+                        <h1 class="text-emerald-600 font-bold text-lg sm:text-xl leading-tight">IKPM Kalbar</h1>
+                        <p class="text-gray-500 text-xs">Kalimantan Barat</p>
                     </div>
                 </a>
 
@@ -204,7 +204,7 @@
                 <div class="w-16 h-16 sm:w-24 sm:h-24 bg-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-lg">
                     <span class="text-white font-bold text-2xl sm:text-4xl">IK</span>
                 </div>
-                <h2 class="text-2xl sm:text-4xl md:text-6xl font-bold text-emerald-600 mb-2 sm:mb-4">IKPM Gontor Pontianak</h2>
+                <h2 class="text-2xl sm:text-4xl md:text-6xl font-bold text-emerald-600 mb-2 sm:mb-4">IKPM Kalbar</h2>
                 <p class="text-base sm:text-xl text-slate-600">Ikatan Keluarga Pondok Modern</p>
             </div>
         </div>
@@ -261,7 +261,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-8 sm:mb-12 lg:mb-16">
                 <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-800 mb-3 sm:mb-4">Kabar Dari IKPM</h2>
-                <p class="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto px-2">Informasi terbaru dan berita seputar kegiatan IKPM Gontor Pontianak</p>
+                <p class="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto px-2">Informasi terbaru dan berita seputar kegiatan IKPM Kalbar</p>
             </div>
 
             @if($news->count() > 0)
@@ -343,8 +343,8 @@
                             <span class="text-emerald-600 font-bold text-lg sm:text-xl">IK</span>
                         </div>
                         <div>
-                            <h3 class="text-white font-bold text-lg sm:text-xl">IKPM Gontor</h3>
-                            <p class="text-emerald-200 text-xs sm:text-sm">Pontianak</p>
+                            <h3 class="text-white font-bold text-lg sm:text-xl">IKPM Kalbar</h3>
+                            <p class="text-emerald-200 text-xs sm:text-sm">Kalimantan Barat</p>
                         </div>
                     </div>
                     <p class="text-gray-300 text-sm leading-relaxed whitespace-pre-line">{{ $footerAddress }}</p>
@@ -404,7 +404,7 @@
             <div class="border-t border-emerald-800 mt-8 sm:mt-12 pt-6 sm:pt-8">
                 <div class="flex flex-col sm:flex-row justify-between items-center text-center sm:text-left">
                     <p class="text-gray-400 text-xs sm:text-sm">
-                        &copy; {{ date('Y') }} IKPM Gontor Pontianak. All rights reserved.
+                        &copy; {{ date('Y') }} IKPM Kalbar. All rights reserved.
                     </p>
                     <div class="flex space-x-4 sm:space-x-6 mt-3 sm:mt-0">
                         <a href="#" class="text-gray-400 hover:text-white transition-colors text-xs sm:text-sm py-1">Privacy Policy</a>

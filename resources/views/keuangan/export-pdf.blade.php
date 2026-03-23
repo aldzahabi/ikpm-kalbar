@@ -126,7 +126,7 @@
 <body>
     <!-- Header -->
     <div class="header">
-        <h1>IKPM GONTOR PONTIANAK</h1>
+        <h1>IKPM KALBAR</h1>
         <h2>Laporan Keuangan</h2>
         <p style="font-size: 11pt; margin-top: 5px;">{{ $accountName }}</p>
     </div>
@@ -218,7 +218,7 @@
     <!-- Footer -->
     <div class="footer">
         <p>Dicetak oleh: {{ $printedBy }} | {{ now()->format('d/m/Y H:i:s') }}</p>
-        <p>IKPM Gontor Pontianak - Sistem Manajemen Keuangan</p>
+        <p>IKPM Kalbar - Sistem Manajemen Keuangan</p>
     </div>
 </body>
 </html>

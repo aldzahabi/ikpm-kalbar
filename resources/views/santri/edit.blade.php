@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Data Santri - IKPM Gontor Pontianak')
+@section('title', 'Edit Data Santri - IKPM Kalbar')
 @section('page-title', 'Edit Data Santri')
 @section('page-subtitle', 'Perbarui data santri')
 

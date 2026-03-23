@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Catat Transaksi - IKPM Gontor Pontianak')
+@section('title', 'Catat Transaksi - IKPM Kalbar')
 @section('page-title', 'Catat Transaksi Baru')
 @section('page-subtitle', 'Tambah transaksi keuangan baru')
 
