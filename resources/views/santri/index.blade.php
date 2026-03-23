@@ -73,19 +73,20 @@
     <!-- Search Bar & Filter -->
     <div class="bg-white rounded-xl shadow-sm border border-green-100 p-3 sm:p-4 mb-4 sm:mb-6">
         <form action="{{ route('santri.index') }}" method="GET" class="space-y-3">
+            <!-- Row 1: Search & Pondok Cabang -->
             <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 sm:gap-4">
-                <div class="sm:col-span-5">
-                    <input 
-                        type="text" 
-                        name="search" 
+                <div class="sm:col-span-6">
+                    <input
+                        type="text"
+                        name="search"
                         value="{{ request('search') }}"
                         placeholder="Cari Nama atau Stambuk..."
                         class="w-full px-3 sm:px-4 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-200 focus:border-brand-primary transition-colors text-gray-800 placeholder-gray-400 text-sm"
                     >
                 </div>
-                <div class="sm:col-span-4">
-                    <select 
-                        name="pondok_cabang" 
+                <div class="sm:col-span-6">
+                    <select
+                        name="pondok_cabang"
                         class="w-full px-3 sm:px-4 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-200 focus:border-brand-primary transition-colors text-gray-800 bg-white text-sm"
                     >
                         <option value="">-- Semua Pondok Cabang --</option>
@@ -96,16 +97,63 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="sm:col-span-3 flex items-center space-x-2">
-                    <button 
-                        type="submit" 
+            </div>
+
+            <!-- Row 2: Status, Kelas/Tahun & Actions -->
+            <div class="grid grid-cols-2 sm:grid-cols-12 gap-2 sm:gap-4" x-data="{ status: '{{ request('status') }}' }">
+                <div class="col-span-1 sm:col-span-3">
+                    <select
+                        name="status"
+                        x-model="status"
+                        class="w-full px-3 sm:px-4 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-200 focus:border-brand-primary transition-colors text-gray-800 bg-white text-sm"
+                    >
+                        <option value="">-- Semua Status --</option>
+                        @foreach($statusList ?? [] as $key => $name)
+                            <option value="{{ $key }}" {{ request('status') == $key ? 'selected' : '' }}>
+                                {{ $name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-span-1 sm:col-span-3">
+                    <!-- Dropdown Kelas (untuk santri/alumni atau semua status) -->
+                    <select
+                        name="kelas"
+                        x-show="status !== 'ustad'"
+                        class="w-full px-3 sm:px-4 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-200 focus:border-brand-primary transition-colors text-gray-800 bg-white text-sm"
+                    >
+                        <option value="">-- Semua Kelas --</option>
+                        @foreach($kelasList ?? [] as $key => $name)
+                            <option value="{{ $key }}" {{ request('kelas') == $key && request('status') !== 'ustad' ? 'selected' : '' }}>
+                                {{ $name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <!-- Dropdown Tahun (untuk ustad) -->
+                    <select
+                        name="kelas"
+                        x-show="status === 'ustad'"
+                        x-cloak
+                        class="w-full px-3 sm:px-4 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-200 focus:border-brand-primary transition-colors text-gray-800 bg-white text-sm"
+                    >
+                        <option value="">-- Semua Tahun --</option>
+                        @foreach($tahunUstadList ?? [] as $key => $name)
+                            <option value="{{ $key }}" {{ request('kelas') == $key && request('status') === 'ustad' ? 'selected' : '' }}>
+                                {{ $name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-span-2 sm:col-span-6 flex items-center space-x-2">
+                    <button
+                        type="submit"
                         class="flex-1 px-4 py-2 sm:py-2.5 bg-brand-primary text-white rounded-lg hover:bg-green-700 transition-colors focus:outline-none focus:ring-2 focus:ring-green-200 focus:ring-offset-2 text-sm font-medium"
                     >
-                        Filter
+                        <span class="hidden sm:inline">Terapkan </span>Filter
                     </button>
-                    @if(request('search') || request('pondok_cabang'))
-                        <a 
-                            href="{{ route('santri.index') }}" 
+                    @if(request('search') || request('pondok_cabang') || request('status') || request('kelas'))
+                        <a
+                            href="{{ route('santri.index') }}"
                             class="flex-1 px-4 py-2 sm:py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium text-center"
                         >
                             Reset
@@ -113,6 +161,49 @@
                     @endif
                 </div>
             </div>
+
+            <!-- Active Filters Badges -->
+            @if(request('search') || request('pondok_cabang') || request('status') || request('kelas'))
+            <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-gray-100">
+                <span class="text-xs text-gray-500">Filter aktif:</span>
+                @if(request('search'))
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                        Pencarian: "{{ Str::limit(request('search'), 15) }}"
+                        <a href="{{ route('santri.index', array_merge(request()->except('search'), [])) }}" class="ml-1 hover:text-green-600">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                        </a>
+                    </span>
+                @endif
+                @if(request('pondok_cabang'))
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        Gontor {{ request('pondok_cabang') }}
+                        <a href="{{ route('santri.index', array_merge(request()->except('pondok_cabang'), [])) }}" class="ml-1 hover:text-blue-600">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                        </a>
+                    </span>
+                @endif
+                @if(request('status'))
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                        {{ $statusList[request('status')] ?? request('status') }}
+                        <a href="{{ route('santri.index', array_merge(request()->except('status'), [])) }}" class="ml-1 hover:text-purple-600">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                        </a>
+                    </span>
+                @endif
+                @if(request('kelas'))
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
+                        @if(request('status') === 'ustad')
+                            {{ $tahunUstadList[request('kelas')] ?? 'Tahun Ke-'.request('kelas') }}
+                        @else
+                            {{ $kelasList[request('kelas')] ?? 'Kelas '.request('kelas') }}
+                        @endif
+                        <a href="{{ route('santri.index', array_merge(request()->except('kelas'), [])) }}" class="ml-1 hover:text-amber-600">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                        </a>
+                    </span>
+                @endif
+            </div>
+            @endif
         </form>
     </div>
     

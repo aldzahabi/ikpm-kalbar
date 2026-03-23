@@ -275,6 +275,26 @@
                     @error('ustad_mulai_tahun')
                         <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                     @enderror
+
+                    <!-- Info: User akan dibuat otomatis -->
+                    <div class="mt-3 p-3 bg-blue-100 border border-blue-300 rounded-lg">
+                        <div class="flex items-start space-x-2">
+                            <svg class="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <div>
+                                <p class="text-xs font-medium text-blue-800">Akun User Akan Dibuat Otomatis</p>
+                                <p class="text-xs text-blue-700 mt-1">
+                                    Ketika santri dengan status <strong>Ustad</strong> disimpan:
+                                </p>
+                                <ul class="text-xs text-blue-700 mt-1 list-disc list-inside space-y-0.5">
+                                    <li>Email: <code class="bg-blue-200 px-1 rounded">[stambuk]@ikpm.local</code></li>
+                                    <li>Password default: <code class="bg-blue-200 px-1 rounded">[stambuk]</code> (sama dengan nomor stambuk)</li>
+                                    <li>Role: Ustad (hanya bisa manage santri di pondok cabang yang sama)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Baris 4: Alamat (Textarea Full Width) -->

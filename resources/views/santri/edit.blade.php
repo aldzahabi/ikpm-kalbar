@@ -275,6 +275,49 @@
                     @error('ustad_mulai_tahun')
                         <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                     @enderror
+
+                    <!-- Info: Sinkronisasi User -->
+                    @php
+                        $userEmail = $santri->stambuk . '@ikpm.local';
+                        $linkedUser = \App\Models\User::where('email', $userEmail)->first();
+                    @endphp
+                    @if($linkedUser)
+                        <div class="mt-3 p-3 bg-green-100 border border-green-300 rounded-lg">
+                            <div class="flex items-start space-x-2">
+                                <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <div>
+                                    <p class="text-xs font-medium text-green-800">Akun User Terhubung</p>
+                                    <p class="text-xs text-green-700 mt-1">
+                                        Email: <code class="bg-green-200 px-1 rounded">{{ $linkedUser->email }}</code>
+                                        <span class="ml-2 px-1.5 py-0.5 rounded text-xs {{ $linkedUser->is_active ? 'bg-green-600 text-white' : 'bg-red-100 text-red-700' }}">
+                                            {{ $linkedUser->is_active ? 'Aktif' : 'Nonaktif' }}
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                        <div class="mt-3 p-3 bg-blue-100 border border-blue-300 rounded-lg">
+                            <div class="flex items-start space-x-2">
+                                <svg class="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <div>
+                                    <p class="text-xs font-medium text-blue-800">Akun User Akan Dibuat Otomatis</p>
+                                    <p class="text-xs text-blue-700 mt-1">
+                                        Ketika disimpan dengan status <strong>Ustad</strong>:
+                                    </p>
+                                    <ul class="text-xs text-blue-700 mt-1 list-disc list-inside space-y-0.5">
+                                        <li>Email: <code class="bg-blue-200 px-1 rounded">{{ $santri->stambuk }}@ikpm.local</code></li>
+                                        <li>Password default: <code class="bg-blue-200 px-1 rounded">{{ $santri->stambuk }}</code></li>
+                                        <li>Role: Ustad</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 </div>
                 
                 <!-- Baris 4: Alamat (Textarea Full Width) -->

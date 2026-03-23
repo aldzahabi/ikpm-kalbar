@@ -27,7 +27,7 @@ class SantriController extends Controller
 
         // Get pondok list for filter dropdown
         $pondokCabangList = Santri::getPondokCabangList();
-        
+
         // For ustad, only show their assigned pondok in filter
         $filterPondokList = $pondokCabangList;
         if ($user && $user->isUstad()) {
@@ -35,7 +35,40 @@ class SantriController extends Controller
             $filterPondokList = array_intersect_key($pondokCabangList, array_flip($assignedPondok));
         }
 
-        return view('santri.index', compact('santris', 'pondokCabangList', 'filterPondokList'));
+        // Status list for filter
+        $statusList = [
+            'santri' => 'Santri',
+            'ustad' => 'Ustad',
+            'alumni' => 'Alumni',
+        ];
+
+        // Kelas list for filter (santri)
+        $kelasList = [
+            '1' => 'Kelas 1',
+            '2' => 'Kelas 2',
+            '3' => 'Kelas 3',
+            '3Int' => 'Kelas 3 Intensif',
+            '4' => 'Kelas 4',
+            '5' => 'Kelas 5',
+            '6' => 'Kelas 6',
+            'lulus' => 'Lulus',
+        ];
+
+        // Tahun list for filter (ustad) - tahun ke berapa sebagai ustad
+        $tahunUstadList = [
+            '1' => 'Tahun Ke-1',
+            '2' => 'Tahun Ke-2',
+            '3' => 'Tahun Ke-3',
+            '4' => 'Tahun Ke-4',
+            '5' => 'Tahun Ke-5',
+            '6' => 'Tahun Ke-6',
+            '7' => 'Tahun Ke-7',
+            '8' => 'Tahun Ke-8',
+            '9' => 'Tahun Ke-9',
+            '10' => 'Tahun Ke-10+',
+        ];
+
+        return view('santri.index', compact('santris', 'pondokCabangList', 'filterPondokList', 'statusList', 'kelasList', 'tahunUstadList'));
     }
 
     /**
